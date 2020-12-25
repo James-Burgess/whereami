@@ -1,0 +1,6 @@
+flask
+flask-login
+flask-httpauth
+tinydb
+geopy
+python-dotenv
