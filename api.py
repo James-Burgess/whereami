@@ -1,4 +1,5 @@
 from os import getenv
+import json
 
 from dotenv import load_dotenv, find_dotenv
 from flask import Flask, g, request
@@ -35,8 +36,8 @@ class User(UserMixin):
 
 @auth.verify_token
 def verify_token(token):
-    if token in tokens:
-        return tokens[token]
+    if getenv("SERVER_KEY", 'unsafe') == token:
+        return "internal server"
 
 
 @login_manager.request_loader
@@ -111,6 +112,28 @@ def index():
     return render_template('index.html', location=location.address, here_api_key=key, **last_loc)
 
 
+@app.route('/admin', methods=['GET', 'POST'])
+@login_required
+def admin():
+    if request.method == 'GET':
+        if request.args.get("secret", "none") == getenv("ADMIN_PASS"):
+                return f'''
+                       <form action='admin' method='POST'>
+                        <input type='text' name='email' id='email' placeholder='email'/>
+                        <input type='password' name='password' id='password' placeholder='password'/>
+                        <input type='secret' name='secret' id='secret' placeholder='secret'/>
+                        <input type='submit' name='submit'/>
+                       </form>
+                       '''
+    elif request.method == 'POST':
+        if request.form['secret'] == getenv("ADMIN_PASS"):
+            db.table('users').insert({"email": request.form["email"], "password": request.form['password']})
+            return "succ"
+
+    return "You are not allowed here"
+
+
+
 @app.route('/spot', methods=['post'])
 @auth.login_required
 def spot():
@@ -126,4 +149,4 @@ if __name__ == '__main__':
     if admin := getenv("ADMIN_USER"):
         if not db.table('users').search(Query().email == admin):
             db.table('users').insert({"email": admin, "password": getenv("ADMIN_PASS")})
-    app.run()
+    app.run(host='0.0.0.0', port=8080)
