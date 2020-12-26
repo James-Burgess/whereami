@@ -140,7 +140,7 @@ def spot():
     return "Invalid request"
 
 if __name__ == '__main__':
-    db = TinyDB('db.json')
+    db = TinyDB('./db/db.json')
 
     if admin := getenv("ADMIN_USER"):
         if not db.table('users').search(Query().email == admin):
