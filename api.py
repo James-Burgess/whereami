@@ -106,7 +106,10 @@ def page_not_found(e):
 @login_required
 def index():
     geolocator = Nominatim(user_agent="wheresjimmy")
-    last_loc = db.table('locs').all()[-1]
+    try:
+        last_loc = db.table('locs').all()[-1]
+    except IndexError:
+        last_loc = {"lat": 35.1592248, "lng": -98.451035, "time": "no data"}
     location = geolocator.reverse(f"{last_loc['lat']}, {last_loc['lng']}")
     key = getenv("HERE_API_KEY")
     return render_template('index.html', location=location.address, here_api_key=key, **last_loc)

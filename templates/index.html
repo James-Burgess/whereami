@@ -3,6 +3,8 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+  <link rel="shortcut icon" href="https://jimmyb.co.za/assets/images/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="https://jimmyb.co.za/assets/images/favicon.ico" type="image/x-icon">
   <title>Wheres Jimmy?</title>
   <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
   <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
@@ -29,25 +31,34 @@
        color: white;
        z-index: 100;
        position: fixed;
-       top: 50px;
-       left: 60px;
+       top: 1%;
+       left: 3%;
        font-family: 'Bangers', cursive;
+     }
+     h1 {
+       font-size: 1.5em;
+       margin-bottom: 0px;
      }
      p {
        font-family: 'Abel', sans-serif;
+       padding: 0px;
+       margin: 0px;
      }
      h4 {
+       padding: 0px;
+       margin-top: 0px;
        font-family: 'Archivo Narrow', sans-serif;
-       width: 40ch;
+       width: 25ch;
      }
   </style>
 </head>
    <body id="markers-on-the-map">
       <div class="page-header">
          <h1>Wheres Jimmy?</h1>
+         <p>updated: {{ time }}</p>
+          <br>
          <p>{{lat}}  ,  {{lng}}</p>
          <h4>{{location}}</h4>
-         <p>last updated at {{ time }}</p>
       </div>
       <div id="map"></div>
       <script type="text/javascript">
