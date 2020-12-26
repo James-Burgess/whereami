@@ -139,7 +139,7 @@ def admin():
 def spot():
     data = request.form.get('data')
     if data:
-        db.table('loc').insert(process_spot(data))
+        db.table('locs').insert(process_spot(data))
         return f"processed!"
     return "Invalid request"
 
